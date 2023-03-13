@@ -1,11 +1,12 @@
 SHELL := /bin/bash
 export BASE := $(PWD)
 export DOWNLOAD := $(BASE)/../download
-export TOOLCHAIN = $(BASE)/toolchain
-export STAGE := $(BASE)/stage
-export BUILD := $(BASE)/build
-export STATE := $(BASE)/state
-export OUT := $(BASE)/out
+export TOOLCHAIN := $(BASE)/toolchain
+export WORK := $(BASE)/work
+export STATE := $(WORK)/state
+export BUILD := $(WORK)/build
+export HOST := $(WORK)/host
+export OUTPUT := $(WORK)/output
 
 export ARCH=arm64
 export KCFG=defconfig
@@ -15,8 +16,9 @@ export CROSS_PREFIX=aarch64-none-linux-gnu-
 
 all: packages
 	$(info "generating image ...")
-	cp $(STAGE)/$(IMG) $(OUT)/
-	source ../common/utils.sh && make_initramfs $(STAGE) $(OUT) rootfs.gz
+	mkdir -p $(OUTPUT)
+	cp $(HOST)/$(IMG) $(OUTPUT)/
+	source ../common/utils.sh && make_initramfs $(HOST) $(OUTPUT) rootfs.gz
 	$(info "success.")
 
 packages: toolchain

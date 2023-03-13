@@ -4,7 +4,7 @@ set -eo pipefail
 set -x
 
 add_procfs_sysfs_devfs_rcS() {
-        pushd $1/rootfs
+        pushd $1/sysroot
 
         mkdir -p proc
         mkdir -p sys
@@ -46,7 +46,7 @@ check_params() {
 make_initramfs() {
 	check_params $@
         add_procfs_sysfs_devfs_rcS $1
-        pushd $1/rootfs
+        pushd $1/sysroot
         find . | cpio -o -H newc | gzip -9 > $2/$3
         popd
 }
@@ -61,7 +61,7 @@ make_initrd() {
 	TMP=`mktemp -d ./tmpd.XXX`
 
 	sudo mount -t ext2 -o loop $2/$3 ${TMP}
-	sudo cp -r $1/rootfs/* ${TMP}
+	sudo cp -r $1/sysroot/* ${TMP}
 	sudo umount ${TMP}
 }
 

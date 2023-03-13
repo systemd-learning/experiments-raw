@@ -2,15 +2,27 @@ SHELL := /bin/bash
 libcap/VERSION := 2.65
 libcap/TARBALL := https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$(libcap/VERSION).tar.xz
 
-libcap/dir = $(BUILD)/libcap/libcap-$(libcap/VERSION)
+libcap/dir = $(BUILD)/libcap/libcap-$(libcap/VERSION)_build.$(LOCAL_BUILD)
+include $(BASE)/../common/env.mk
 
 define libcap/build :=
+	$(info "libcap/build: LOCAL_BUILD: $(LOCAL_BUILD)")
+	$(info "libca/build: dir: $(libcap/dir)")
 	+cd $(libcap/dir)
-	$(info prefix: $(CROSS_PREFIX))
-	+make CROSS_COMPILE='$(CROSS_PREFIX)' BUILD_CC=/usr/bin/gcc prefix='$(STAGE)/rootfs'
+	if [ ! -z $(LOCAL_BUILD) ] && [ $(LOCAL_BUILD) -eq  1 ]; then
+		echo "not implemented" && exit
+	else
+		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_PREFIX)"  make BUILD_CC="/usr/bin/gcc" prefix="$(HOST)/sysroot" 
+	fi
 endef
 
 define libcap/install :=
+	$(info "libcap/build: LOCAL_BUILD: $(LOCAL_BUILD)")
+	$(info "libca/build: dir: $(libcap/dir)")
 	+cd $(libcap/dir)
-	+make CROSS_COMPILE='$(CROSS_PREFIX)' BUILD_CC=/usr/bin/gcc prefix='$(STAGE)/rootfs' install
+	if [ ! -z $(LOCAL_BUILD) ] && [ $(LOCAL_BUILD) -eq  1 ]; then
+		echo "not implemented" && exit
+	else
+		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_PREFIX)" make install  DESTDIR="$(HOST)/sysroot"
+	fi
 endef
