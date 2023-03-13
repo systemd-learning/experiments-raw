@@ -66,6 +66,7 @@ define preparepkg =
 endef
 
 define buildpkg =
+	mkdir -p '$(STAGE)'
 	$(call $1/build)
 	$(call depfile,$1,build)
 endef
