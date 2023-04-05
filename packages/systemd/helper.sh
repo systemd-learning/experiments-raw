@@ -99,3 +99,7 @@ config_initrd_as_default() {
 	ln -s ${HOST}/sysroot/usr/lib/systemd/system/initrd.target  ${HOST}/sysroot/usr/lib/systemd/system/default.target
 }
 
+work_around_shift-overflow() {
+	sed -i  's/'-Werror=shift-overflow=2'/'-Werror=shift-overflow=1'/' ${BUILDDIR}/meson.build
+}
+
