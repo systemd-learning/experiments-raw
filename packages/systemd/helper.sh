@@ -45,3 +45,57 @@ cpu = 'cortex-a57'
 endian = 'little'
 EOF
 }
+
+gen_initrd_files() {
+touch ${HOST}/sysroot/etc/initrd-release
+
+cat > ${HOST}/sysroot/usr/lib/systemd/system/initrd.service <<EOF
+[Unit]
+Description=Raw Shell
+#Documentation=man:sulogin(8)
+DefaultDependencies=no
+Conflicts=shutdown.target
+Before=shutdown.target
+
+[Service]
+Environment=HOME=/root
+WorkingDirectory=-/root
+ExecStart=-/bin/sh
+Type=simple
+StandardInput=tty-force
+StandardOutput=inherit
+StandardError=inherit
+KillMode=process
+IgnoreSIGPIPE=no
+SendSIGHUP=yes
+EOF
+
+cat > ${HOST}/sysroot/usr/lib/systemd/system/initrd.target <<EOF
+#  SPDX-License-Identifier: LGPL-2.1-or-later
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=Initrd Default Target
+Documentation=man:systemd.special(7)
+OnFailure=emergency.target
+OnFailureJobMode=replace-irreversibly
+AssertPathExists=/etc/initrd-release
+Requires=basic.target
+Wants=initrd-root-fs.target initrd-root-device.target initrd-fs.target initrd-usr-fs.target initrd-parse-etc.service initrd.service
+After=initrd-root-fs.target initrd-root-device.target initrd-fs.target initrd-usr-fs.target basic.target rescue.service rescue.target initrd.service
+AllowIsolate=yes
+EOF
+}
+
+config_initrd_as_default() {
+	gen_initrd_files
+	rm -f ${HOST}/sysroot/usr/lib/systemd/system/default.target
+	ln -s ${HOST}/sysroot/usr/lib/systemd/system/initrd.target  ${HOST}/sysroot/usr/lib/systemd/system/default.target
+}
+

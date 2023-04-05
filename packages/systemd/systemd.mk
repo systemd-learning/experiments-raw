@@ -12,5 +12,7 @@ define systemd/build :=
 endef
 
 define systemd/install :=
-	$(warn "not implemented!")
+	+cd $(systemd/dir)
+	DESTDIR=$(HOST)/sysroot/ '$(MAKE)' install
+	+source $(WORK)/../../packages/systemd/helper.sh && config_initrd_as_default
 endef

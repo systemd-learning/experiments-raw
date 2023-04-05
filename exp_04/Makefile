@@ -25,6 +25,7 @@ packages: toolchain
 	$(info "building dependent packages ...")
 	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
 	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
 	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf LOCAL_BUILD=1
 	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libcap
