@@ -7,7 +7,7 @@ include $(BASE)/../common/env.mk
 
 define gperf/build :=
 	+cd $(gperf/dir)
-	+$(CROSS_MAKE_ENV) ./configure --host=aarch64-none-linux CC='$(TOOLCHAIN)/bin/$(CROSS_PREFIX)gcc' CXX='$(TOOLCHAIN)/bin/$(CROSS_PREFIX)g++' --prefix='$(HOST)/sysroot'
+	+$(CROSS_MAKE_ENV) ./configure --host=aarch64-none-linux CC='$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' CXX='$(TOOLCHAIN)/bin/$(CROSS_NAME)-g++' --prefix='$(HOST)/sysroot'
 	+'$(MAKE)' -j 8
 endef
 

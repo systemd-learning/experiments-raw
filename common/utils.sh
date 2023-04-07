@@ -3,6 +3,10 @@
 set -eo pipefail
 set -x
 
+init_host_sysroot() {
+        pushd $1/sysroot
+}
+
 add_procfs_sysfs_devfs_rcS() {
         pushd $1/sysroot
 

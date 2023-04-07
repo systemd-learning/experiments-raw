@@ -2,12 +2,13 @@
 
 BASE=`pwd`
 QEMU=${BASE}/../tools/qemu
+OUTPUT=${BASE}/work/output
 
 ${QEMU}/qemu-system-arm \
-	-m 128M \
+	-m 128M -smp 4 \
 	-M vexpress-a9 \
-	-kernel ./out/zImage \
-	-dtb ./out/vexpress-v2p-ca9.dtb \
-	-initrd ./out/initrd.img \
+	-kernel ${OUTPUT}/zImage \
+	-dtb ${OUTPUT}/vexpress-v2p-ca9.dtb \
+	-initrd  ${OUTPUT}/initrd.img \
 	-nographic \
 	--append "console=ttyAMA0 debug rdinit=/sbin/init"

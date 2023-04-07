@@ -1,18 +1,11 @@
-SHELL := /bin/bash
 export BASE := $(PWD)
-export DOWNLOAD := $(BASE)/../download
-export TOOLCHAIN := $(BASE)/toolchain
-export WORK := $(BASE)/work
-export STATE := $(WORK)/state
-export BUILD := $(WORK)/build
-export HOST := $(WORK)/host
-export OUTPUT := $(WORK)/output
+include $(BASE)/../common/env.mk
 
 export ARCH=arm64
 export KCFG=defconfig
 export IMG=Image.gz
 export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
-export CROSS_PREFIX=aarch64-none-linux-gnu-
+export CROSS_NAME=aarch64-none-linux-gnu
 
 all: packages
 	$(info "generating image ...")
@@ -30,6 +23,7 @@ packages: toolchain
 
 toolchain:
 	$(info "preparing toolchain ...")
+	$(call init_work_space)
 	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm64
 
 clean:

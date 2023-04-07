@@ -1,24 +1,18 @@
-SHELL := /bin/bash
 export BASE := $(PWD)
-export DOWNLOAD := $(BASE)/../download
-export TOOLCHAIN = $(BASE)/toolchain
-export STAGE := $(BASE)/stage
-export BUILD := $(BASE)/build
-export STATE := $(BASE)/state
-export OUT := $(BASE)/out
+include $(BASE)/../common/env.mk
 
 export STATIC := 1
 export ARCH=arm
 export KCFG=vexpress_defconfig
 export IMG=zImage
 export DTB=vexpress-v2p-ca9.dtb
-export CROSS_PREFIX=arm-none-linux-gnueabihf-
+export CROSS_NAME=arm-none-linux-gnueabihf
 
 all: packages
 	$(info "generating image ...")
-	cp $(STAGE)/$(IMG) $(OUT)/
-	cp $(STAGE)/$(DTB) $(OUT)/
-	source ../common/utils.sh && make_initramfs $(STAGE) $(OUT) rootfs.gz
+	cp $(HOST)/$(IMG) $(OUTPUT)/
+	cp $(HOST)/$(DTB) $(OUTPUT)/
+	source ../common/utils.sh && make_initramfs $(HOST) $(OUTPUT) rootfs.gz
 	$(info "success.")
 
 packages: toolchain
@@ -28,6 +22,7 @@ packages: toolchain
 
 toolchain:
 	$(info "preparing toolchain ...")
+	$(call init_work_space)
 	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm32
 
 clean:

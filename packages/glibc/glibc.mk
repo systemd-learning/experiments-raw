@@ -9,7 +9,11 @@ define glibc/build :=
 	+cd $(glibc/dir)
 	$(info glibc/dir: $(glibc/dir))
 	+mkdir -p build && cd build
-	+$(CROSS_MAKE_ENV) ../configure aarch64-none-linux-gnu --host=aarch64-none-linux-gnu CFLAGS="-O2 " --build=x86_64-pc-linux-gnu --prefix=/usr  --enable-add-ons
+	if [ "$(ARCH)" ==  "arm" ]; then
+		+$(CROSS_MAKE_ENV) ../configure arm-none-linux-gnu --host=arm-none-linux-gnu CFLAGS="-O2 " --build=x86_64-pc-linux-gnu --prefix=/usr  --enable-add-ons
+	else
+		+$(CROSS_MAKE_ENV) ../configure aarch64-none-linux-gnu --host=aarch64-none-linux-gnu CFLAGS="-O2 " --build=x86_64-pc-linux-gnu --prefix=/usr  --enable-add-ons
+	fi
 	+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 endef
 

@@ -1,11 +1,34 @@
+SHELL := /bin/bash
+export DOWNLOAD := $(BASE)/../download
+export TOOLCHAIN = $(BASE)/toolchain
+export WORK := $(BASE)/work
+export OUTPUT := $(WORK)/output
+export BUILD := $(WORK)/build
+export HOST := $(WORK)/host
+export STATE := $(WORK)/state
 
-CROSS_MAKE_ENV = \
+CROSS_ENV_RAW = \
 	PATH=$(TOOLCHAIN)/bin:$(PATH)  \
 	CC=$(TOOLCHAIN)/bin/$(CROSS_PREFIX)gcc  \
 	CXX=$(TOOLCHAIN)/bin/$(CROSS_PREFIX)g++ \
-	CFLAGS=" ${CFLAGS} -I$(HOST)/$(ROOT_PREFIX)/include --sysroot=$(HOST)/sysroot "  \
-	CXXFLAGS=" ${CXXFLAGS} -I$(HOST)/$(ROOT_PREFIX)/include --sysroot=$(HOST)/sysroot "  \
-	LD="$(TOOLCHAIN)/bin/$(CROSS_PREFIX)ld"  \
-	LDFLAGS=' -L$(HOST)/$(ROOT_PREFIX) ' 
+	LD="$(TOOLCHAIN)/bin/$(CROSS_PREFIX)ld"
+
+CROSS_MAKE_ENV = \
+	$(CROSS_ENV_RAW) \
+	CFLAGS="${CFLAGS} --sysroot=$(HOST)/sysroot "  \
+	CXXFLAGS="${CXXFLAGS} --sysroot=$(HOST)/sysroot "  \
+	LDFLAGS=' --sysroot=$(HOST)/sysroot '
 
 LOCAL_MAKE_ENV = PATH=$(PATH)
+
+define init_work_space
+	mkdir -p $(WORK)
+	mkdir -p $(OUTPUT)
+	mkdir -p $(BUILD)
+	mkdir -p $(HOST)
+	mkdir -p $(STATE)
+
+	cd $(HOST) && mkdir -p usr/lib mkdir -p usr/lib64 && \
+	ln -s  usr/lib64 lib64 && ln -s  usr/lib lib && \
+	cd -
+endef

@@ -7,7 +7,7 @@ include $(BASE)/../common/env.mk
 
 define pcre2/build :=
 	+cd $(pcre2/dir)
-	+$(CROSS_MAKE_ENV) CC='$(TOOLCHAIN)/bin/$(CROSS_PREFIX)gcc' CXX='$(TOOLCHAIN)/bin/$(CROSS_PREFIX)g++' ./configure --host=aarch64-none-linux --with-sysroot="$(HOST)/sysroot"  --prefix="$(HOST)/sysroot"
+	+$(CROSS_MAKE_ENV) CC='$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' CXX='$(TOOLCHAIN)/bin/$(CROSS_NAME)-g++' ./configure --host=aarch64-none-linux --with-sysroot="$(HOST)/sysroot"  --prefix="$(HOST)/sysroot"
 	+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 endef
 

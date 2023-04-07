@@ -12,7 +12,7 @@ define libcap/build :=
 	if [ ! -z $(LOCAL_BUILD) ] && [ $(LOCAL_BUILD) -eq  1 ]; then
 		echo "not implemented" && exit
 	else
-		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_PREFIX)" PAM_CAP=no lib=lib BUILD_CC="/usr/bin/gcc" prefix="$(HOST)/sysroot"  make
+		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_NAME)-" PAM_CAP=no lib=lib BUILD_CC="/usr/bin/gcc" prefix="$(HOST)/sysroot"  make
 	fi
 endef
 
@@ -23,6 +23,6 @@ define libcap/install :=
 	if [ ! -z $(LOCAL_BUILD) ] && [ $(LOCAL_BUILD) -eq  1 ]; then
 		echo "not implemented" && exit
 	else
-		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_PREFIX)" PAM_CAP=no lib=lib DESTDIR="$(HOST)/sysroot" make install
+		+$(CROSS_MAKE_ENV) CROSS_COMPILE="$(CROSS_NAME)-" PAM_CAP=no lib=lib DESTDIR="$(HOST)/sysroot" make install
 	fi
 endef
