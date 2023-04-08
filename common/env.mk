@@ -15,8 +15,8 @@ CROSS_ENV_RAW = \
 
 CROSS_MAKE_ENV = \
 	$(CROSS_ENV_RAW) \
-	CFLAGS="${CFLAGS} -O2 --sysroot=$(HOST)/sysroot "  \
-	CXXFLAGS="${CXXFLAGS} -O2 --sysroot=$(HOST)/sysroot "  \
+	CFLAGS='$(CFLAGS) -O2 --sysroot=$(HOST)/sysroot '  \
+	CXXFLAGS='$(CXXFLAGS) -O2 --sysroot=$(HOST)/sysroot '  \
 	LDFLAGS=' --sysroot=$(HOST)/sysroot '
 
 LOCAL_MAKE_ENV = PATH=$(PATH)

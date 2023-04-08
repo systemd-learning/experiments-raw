@@ -8,10 +8,10 @@ BUILDDIR=$1
 
         cat > ${BUILDDIR}/cross.conf <<EOF
 [binaries]
-c = '${TOOLCHAIN}/bin/${CROSS_COMPILE}-gcc'
+c = '${TOOLCHAIN}/bin/${CROSS_NAME}-gcc'
 cpp = '/bin/false'
-ar = '${TOOLCHAIN}/bin/${CROSS_COMPILE}-ar'
-strip = '${TOOLCHAIN}/bin/${CROSS_COMPILE}-strip'
+ar = '${TOOLCHAIN}/bin/${CROSS_NAME}-ar'
+strip = '${TOOLCHAIN}/bin/${CROSS_NAME}-strip'
 cmake = '/bin/false'
 fortran = '/bin/false'
 pkgconfig = '${HOST}/bin/pkgconf'
