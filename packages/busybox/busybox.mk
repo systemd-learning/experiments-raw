@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 busybox/VERSION := 1.33.2
 busybox/TARBALL := https://busybox.net/downloads/busybox-$(busybox/VERSION).tar.bz2
-
 busybox/dir = $(BUILD)/busybox/busybox-$(busybox/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define busybox/build :=
 	+cd $(busybox/dir)

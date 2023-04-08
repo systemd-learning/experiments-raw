@@ -1,8 +1,8 @@
+include $(BASE)/../common/env.mk
+
 linux/VERSION := 5.10.65-rt53-rebase
 linux/TARBALL := https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git/snapshot/linux-stable-rt-$(linux/VERSION).tar.gz
-
 linux/dir = $(BUILD)/linux/linux-$(linux/VERSION)
-include $(BASE)/../common/env.mk
 
 define linux/build :=
 	+cd $(linux/dir)

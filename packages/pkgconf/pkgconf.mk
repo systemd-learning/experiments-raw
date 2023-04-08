@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 pkgconf/VERSION := 1.9.4
 pkgconf/TARBALL := https://distfiles.dereferenced.org/pkgconf/pkgconf-$(pkgconf/VERSION).tar.gz
-
 pkgconf/dir = $(BUILD)/pkgconf/pkgconf-$(pkgconf/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define pkgconf/build :=
 	+cd $(pkgconf/dir)

@@ -1,7 +1,7 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 systemd/VERSION := 253.1
 systemd/TARBALL := https://github.com/systemd/systemd-stable/archive/refs/tags/v$(systemd/VERSION).tar.gz
-
 systemd/dir = $(BUILD)/systemd/systemd-$(systemd/VERSION)
 
 define systemd/build :=

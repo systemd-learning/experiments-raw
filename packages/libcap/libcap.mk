@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 libcap/VERSION := 2.65
 libcap/TARBALL := https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-$(libcap/VERSION).tar.xz
-
 libcap/dir = $(BUILD)/libcap/libcap-$(libcap/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define libcap/build :=
 	$(info "libcap/build: LOCAL_BUILD: $(LOCAL_BUILD)")

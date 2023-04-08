@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 pcre2/VERSION := 10.42
 pcre2/TARBALL := https://github.com/PCRE2Project/pcre2/releases/download/pcre2-$(pcre2/VERSION)/pcre2-$(pcre2/VERSION).tar.gz
-
 pcre2/dir = $(BUILD)/pcre2/pcre2-$(pcre2/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define pcre2/build :=
 	+cd $(pcre2/dir)

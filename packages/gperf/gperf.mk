@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 gperf/VERSION := 3.1
 gperf/TARBALL := https://ftp.gnu.org/pub/gnu/gperf/gperf-$(gperf/VERSION).tar.gz
-
 gperf/dir = $(BUILD)/gperf/gperf-$(gperf/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define gperf/build :=
 	+cd $(gperf/dir)

@@ -1,15 +1,14 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 gdb/VERSION := 11.2
 gdb/TARBALL := https://mirrors.aliyun.com/gnu/gdb/gdb-$(gdb/VERSION).tar.xz
-
 gdb/dir = $(BUILD)/gdb/gdb-$(gdb/VERSION)
-include $(BASE)/../common/env.mk
 
 define gdb/build :=
 	+cd $(gdb/dir)
 	$(info gdb/dir: $(gdb/dir))
 	+mkdir -p build && cd build
-	+$(CROSS_ENV_RAW) CFLAGS='$(CFLAGS)  -O2 --sysroot=$(HOST)/sysroot ' CXXFLAGS='$(CXXFLAGS) -O2 --sysroot=$(HOST)/sysroot ' ../configure --host=aarch64-none-linux-gnu --build=x86_64-pc-linux-gnu  --enable-languages=c,c++
+	+$(CROSS_MAKE_ENV) ../configure --host=aarch64-none-linux-gnu --build=x86_64-pc-linux-gnu  --enable-languages=c,c++
 	+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 endef
 

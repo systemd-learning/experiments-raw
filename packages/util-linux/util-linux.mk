@@ -1,9 +1,8 @@
-SHELL := /bin/bash
+include $(BASE)/../common/env.mk
+
 util-linux/VERSION := 2.38
 util-linux/TARBALL := https://mirrors.edge.kernel.org/pub/linux/utils/util-linux/v$(util-linux/VERSION)/util-linux-$(util-linux/VERSION).tar.xz
-
 util-linux/dir = $(BUILD)/util-linux/util-linux-$(util-linux/VERSION)_build.$(LOCAL_BUILD)
-include $(BASE)/../common/env.mk
 
 define util-linux/build :=
 	+cd $(util-linux/dir)
