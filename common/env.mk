@@ -9,14 +9,14 @@ export STATE := $(WORK)/state
 
 CROSS_ENV_RAW = \
 	PATH=$(TOOLCHAIN)/bin:$(PATH)  \
-	CC=$(TOOLCHAIN)/bin/$(CROSS_PREFIX)gcc  \
-	CXX=$(TOOLCHAIN)/bin/$(CROSS_PREFIX)g++ \
-	LD="$(TOOLCHAIN)/bin/$(CROSS_PREFIX)ld"
+	CC=$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc  \
+	CXX=$(TOOLCHAIN)/bin/$(CROSS_NAME)-g++ \
+	LD="$(TOOLCHAIN)/bin/$(CROSS_NAME)-ld"
 
 CROSS_MAKE_ENV = \
 	$(CROSS_ENV_RAW) \
-	CFLAGS="${CFLAGS} --sysroot=$(HOST)/sysroot "  \
-	CXXFLAGS="${CXXFLAGS} --sysroot=$(HOST)/sysroot "  \
+	CFLAGS="${CFLAGS} -O2 --sysroot=$(HOST)/sysroot "  \
+	CXXFLAGS="${CXXFLAGS} -O2 --sysroot=$(HOST)/sysroot "  \
 	LDFLAGS=' --sysroot=$(HOST)/sysroot '
 
 LOCAL_MAKE_ENV = PATH=$(PATH)

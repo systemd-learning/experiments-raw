@@ -10,9 +10,9 @@ define glibc/build :=
 	$(info glibc/dir: $(glibc/dir))
 	+mkdir -p build && cd build
 	if [ "$(ARCH)" ==  "arm" ]; then
-		+$(CROSS_MAKE_ENV) ../configure arm-none-linux-gnu --host=arm-none-linux-gnu CFLAGS="-O2 " --build=x86_64-pc-linux-gnu --prefix=/usr  --enable-add-ons
+		+$(CROSS_MAKE_ENV) ../configure arm-none-linux-gnu --build=x86_64-pc-linux-gnu --host=arm-none-linux-gnu --prefix=/usr --enable-add-ons
 	else
-		+$(CROSS_MAKE_ENV) ../configure aarch64-none-linux-gnu --host=aarch64-none-linux-gnu CFLAGS="-O2 " --build=x86_64-pc-linux-gnu --prefix=/usr  --enable-add-ons
+		+$(CROSS_MAKE_ENV) ../configure aarch64-none-linux-gnu --build=x86_64-pc-linux-gnu --host=aarch64-none-linux-gnu --target=aarch64-none-linux-gnu --prefix=/usr  --enable-add-ons
 	fi
 	+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 endef

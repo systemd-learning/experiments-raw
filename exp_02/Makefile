@@ -8,7 +8,7 @@ export ARCH=arm
 export KCFG=vexpress_defconfig
 export IMG=zImage
 export DTB=vexpress-v2p-ca9.dtb
-export CROSS_COMPILE=aarch64-none-linux-gnu
+export CROSS_NAME=arm-none-linux-gnueabihf
 
 all: packages
 	$(info "generating image ...")
