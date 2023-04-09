@@ -19,7 +19,7 @@ g-ir-compiler = '/bin/false'
 g-ir-scanner = '/bin/false'
 
 [built-in options]
-c_args = ['-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-Os', '-g0', '-D_FORTIFY_SOURCE=1', '-I${HOST}/sysroot/include', '--sysroot=${HOST}/sysroot' ]
+c_args = ['-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-Os', '-g0', '-D_FORTIFY_SOURCE=1', '-I${HOST}/sysroot/include', '--sysroot=${HOST}/sysroot', '-Wl,-rpath=/lib/' ]
 c_link_args = ['--sysroot=${HOST}/sysroot']
 cpp_args = ['-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-Os', '-g0', '-D_FORTIFY_SOURCE=1']
 cpp_link_args = []

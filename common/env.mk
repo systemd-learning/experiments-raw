@@ -28,7 +28,10 @@ define init_work_space
 	mkdir -p $(HOST)/sysroot
 	mkdir -p $(STATE)
 
-	cd $(HOST)/sysroot && mkdir -p usr/lib mkdir -p usr/lib64 && \
+	cd $(HOST)/sysroot  && \ 
+	mkdir -p usr/lib mkdir -p usr/lib64 && \
+	mkdir -p /usr/bin && mkdir -p /usr/sbin && 
 	ln -s  usr/lib64 lib64 && ln -s  usr/lib lib && \
+	ln -s  usr/bin bin && ln -s usr/sbin sbin && \
 	cd -
 endef
