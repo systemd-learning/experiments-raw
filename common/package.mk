@@ -60,6 +60,7 @@ define preparepkg =
 		mkdir -p $($1/dir)
 		tar -xf '$(DOWNLOAD)/$(notdir $($1/TARBALL))' --strip-components=1  -C $($1/dir)
 	fi
+	$(call $1/prepare)
 	$(call depfile,$1,prepare)
 endef
 
