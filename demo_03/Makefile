@@ -7,6 +7,7 @@ export IMG=Image.gz
 export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
 export CROSS_NAME=aarch64-none-linux-gnu
 export WITH_PERF := 1
+export WITH_CUSTOM_KO := 1
 
 all: packages
 	$(info "generating image ...")

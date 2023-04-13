@@ -6,12 +6,12 @@ linux/dir = $(BUILD)/linux/linux-$(linux/VERSION)
 
 define linux/prepare :=
 	+cd $(linux/dir)
-	+source $(TOY_WORK)/../../packages/linux/helper.sh && do_patch
+	+source $(TOY_WORK)/../../packages/linux/helper.sh && do_patch && do_cfg && do_custom
 endef
 
 define linux/build :=
 	+cd $(linux/dir)
-	+$(MAKE) ARCH=$(ARCH) $(KCFG)
+	+$(MAKE) ARCH=$(ARCH) defconfig
 	if [ $(INITRD) -eq  1 ]; then
 		sed -i 's/# CONFIG_BLK_DEV_RAM is not set/CONFIG_BLK_DEV_RAM=y/' .config
 		sed -i '/CONFIG_BLK_DEV_RAM=y/a\CONFIG_BLK_DEV_RAM_COUNT=16'  .config
@@ -21,6 +21,10 @@ define linux/build :=
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- $(IMG) modules dtbs -j 8
 	if [ $(WITH_PERF) -eq  1 ]; then
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf
+	fi
+	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
+		+cd $(linux/dir)/../custom/demo
+		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- 
 	fi
 endef
 
@@ -32,6 +36,10 @@ define linux/install :=
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_HDR_PATH=$(HOST)/sysroot/usr headers_install
 	if [ $(WITH_PERF) -eq  1 ]; then
 		+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+	fi
+	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
+		+cd $(linux/dir)/../custom/demo
+		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr install
 	fi
 endef
 
