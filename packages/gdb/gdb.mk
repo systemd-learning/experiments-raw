@@ -15,5 +15,5 @@ endef
 define gdb/install :=
 	+cd $(gdb/dir) && cd build
 	+$(CROSS_MAKE_ENV) DESTDIR=$(HOST)/sysroot/ '$(MAKE)' install
-	+cd $(TOOLCHAIN)/aarch64-none-linux-gnu/lib64/ && cp libstdc++.so.6 libstdc++.so libstdc++.so.6.0.29 libgcc_s.so.1 libgcc_s.so $(HOST)/sysroot/lib64/
+	+cd $(TOY_TOOLCHAIN)/aarch64-none-linux-gnu/lib64/ && cp libstdc++.so.6 libstdc++.so libstdc++.so.6.0.29 libgcc_s.so.1 libgcc_s.so $(HOST)/sysroot/lib64/
 endef

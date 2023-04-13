@@ -8,7 +8,7 @@ define toolchain_arm64/build :=
 endef
 
 define toolchain_arm64/install :=
-	$(info "INSTALL TOOLCHAIN: $(TOOLCHAIN)")
-	rm -f  $(TOOLCHAIN)
-	ln -s  $(toolchain_arm64/dir) $(TOOLCHAIN)
+	$(info "INSTALL TOOLCHAIN: $(TOY_TOOLCHAIN)")
+	rm -f  $(TOY_TOOLCHAIN)
+	ln -s  $(toolchain_arm64/dir) $(TOY_TOOLCHAIN)
 endef

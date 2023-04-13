@@ -6,7 +6,7 @@ pcre2/dir = $(BUILD)/pcre2/pcre2-$(pcre2/VERSION)_build.$(LOCAL_BUILD)
 
 define pcre2/build :=
 	+cd $(pcre2/dir)
-	+$(CROSS_MAKE_ENV) CC='$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' CXX='$(TOOLCHAIN)/bin/$(CROSS_NAME)-g++' ./configure --host=aarch64-none-linux --with-sysroot="$(HOST)/sysroot"  --prefix="$(HOST)/sysroot"
+	+$(CROSS_MAKE_ENV) CC='$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' CXX='$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-g++' ./configure --host=aarch64-none-linux --with-sysroot="$(HOST)/sysroot"  --prefix="$(HOST)/sysroot"
 	+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 endef
 

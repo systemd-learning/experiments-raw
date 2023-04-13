@@ -6,12 +6,12 @@ export KCFG=defconfig
 export IMG=Image.gz
 export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
 export CROSS_NAME=aarch64-none-linux-gnu
+export WITH_PERF := 1
 
 all: packages
 	$(info "generating image ...")
-	mkdir -p $(OUTPUT)
-	cp $(HOST)/$(IMG) $(OUTPUT)/
-	source ../common/utils.sh && make_initramfs $(HOST) $(OUTPUT) rootfs.gz
+	cp $(HOST)/$(IMG) $(TOY_OUT)/
+	source ../common/utils.sh && make_initramfs $(HOST) $(TOY_OUT) rootfs.gz
 	$(info "success.")
 
 packages: toolchain

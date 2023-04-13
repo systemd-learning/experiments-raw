@@ -12,9 +12,9 @@ export CROSS_NAME=arm-none-linux-gnueabihf
 
 all: packages
 	$(info "generating image ...")
-	+cp $(HOST)/$(IMG) $(OUTPUT)/
-	+cp $(HOST)/$(DTB) $(OUTPUT)/
-	+source ../common/utils.sh && make_initrd $(HOST) $(OUTPUT) initrd.img
+	+cp $(HOST)/$(IMG) $(TOY_OUT)/
+	+cp $(HOST)/$(DTB) $(TOY_OUT)/
+	+source ../common/utils.sh && make_initrd $(HOST) $(TOY_OUT) initrd.img
 	$(info "success.")
 
 packages: toolchain

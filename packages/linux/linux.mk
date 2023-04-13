@@ -6,7 +6,7 @@ linux/dir = $(BUILD)/linux/linux-$(linux/VERSION)
 
 define linux/prepare :=
 	+cd $(linux/dir)
-	+source $(WORK)/../../packages/linux/helper.sh && do_patch
+	+source $(TOY_WORK)/../../packages/linux/helper.sh && do_patch
 endef
 
 define linux/build :=
@@ -19,15 +19,19 @@ define linux/build :=
 	fi
 
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- $(IMG) modules dtbs -j 8
-	+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- perf -j 8
+	if [ $(WITH_PERF) -eq  1 ]; then
+		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf
+	fi
 endef
 
 define linux/install :=
 	+cd $(linux/dir)/
 	+cp arch/$(ARCH)/boot/$(IMG) $(HOST)/
 	+cp arch/$(ARCH)/boot/dts/$(DTB) $(HOST)/
-	+$(CROSS_ENV_RAW) make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr INSTALL_MOD_STRIP=1 modules_install
-	+$(CROSS_ENV_RAW) make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_HDR_PATH=$(HOST)/sysroot/usr headers_install
-	+cd tools && $(CROSS_ENV_RAW) make ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr INSTALL_MOD_STRIP=1 modules_install
+	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_HDR_PATH=$(HOST)/sysroot/usr headers_install
+	if [ $(WITH_PERF) -eq  1 ]; then
+		+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+	fi
 endef
 

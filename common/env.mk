@@ -1,17 +1,17 @@
 export SHELL := /bin/bash
-export DOWNLOAD := $(BASE)/../download
-export TOOLCHAIN = $(BASE)/toolchain
-export WORK := $(BASE)/work
-export OUTPUT := $(WORK)/output
-export BUILD := $(WORK)/build
-export HOST := $(WORK)/host
-export STATE := $(WORK)/state
+export TOY_TOOLCHAIN = $(BASE)/toolchain
+export TOY_DOWNLOAD := $(BASE)/../download
+export TOY_WORK := $(BASE)/work
+export TOY_OUT := $(TOY_WORK)/output
+export TOY_STATE := $(TOY_WORK)/state
+export BUILD := $(TOY_WORK)/build
+export HOST := $(TOY_WORK)/host
 
 CROSS_ENV_RAW = \
-	PATH=$(TOOLCHAIN)/bin:$(PATH)  \
-	CC=$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc  \
-	CXX=$(TOOLCHAIN)/bin/$(CROSS_NAME)-g++ \
-	LD="$(TOOLCHAIN)/bin/$(CROSS_NAME)-ld"
+	PATH=$(TOY_TOOLCHAIN)/bin:$(PATH)  \
+	CC=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-gcc  \
+	CXX=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-g++ \
+	LD="$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-ld"
 
 CROSS_MAKE_ENV = \
 	$(CROSS_ENV_RAW) \
@@ -22,11 +22,11 @@ CROSS_MAKE_ENV = \
 LOCAL_MAKE_ENV = PATH=$(PATH)
 
 define init_work_space
-	mkdir -p $(WORK)
-	mkdir -p $(OUTPUT)
+	mkdir -p $(TOY_WORK)
+	mkdir -p $(TOY_OUT)
+	mkdir -p $(TOY_STATE)
 	mkdir -p $(BUILD)
 	mkdir -p $(HOST)/sysroot
-	mkdir -p $(STATE)
 
 	cd $(HOST)/sysroot && \
         mkdir -p usr/lib && mkdir -p usr/lib64 && \

@@ -13,7 +13,7 @@ define pkgconf/build :=
 		+$(LOCAL_MAKE_ENV) '$(MAKE)' -j 8
 	else
 		$(info "cross env: $(CROSS_MAKE_ENV)")
-		+$(CROSS_MAKE_ENV) ../configure --prefix="$(HOST)/sysroot" --host=aarch64-unknown-linux CC='$(TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' $(CROSS_CFLAGS) --with-sysroot="$(HOST)/sysroot"
+		+$(CROSS_MAKE_ENV) ../configure --prefix="$(HOST)/sysroot" --host=aarch64-unknown-linux CC='$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-gcc' $(CROSS_CFLAGS) --with-sysroot="$(HOST)/sysroot"
 		+$(CROSS_MAKE_ENV) '$(MAKE)' -j 8
 	fi
 endef

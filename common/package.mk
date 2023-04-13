@@ -1,6 +1,5 @@
-SHELL := /bin/bash
-DOWNLOAD := $(DOWNLOAD)
-STATE := $(STATE)
+include $(BASE)/../common/env.mk
+
 ROOT_PREFIX ?= sysroot
 LOCAL_BUILD ?= 0
 
@@ -8,10 +7,9 @@ LOCAL_BUILD ?= 0
 -include $(BASE)/../packages/*/*.mk
 
 
-depends = $(subst $(BASE),./,$(STATE))/dep.$1.$2.build_$(LOCAL_BUILD)
+depends = $(subst $(BASE),./,$(TOY_STATE))/dep.$1.$2.build_$(LOCAL_BUILD)
 
 define depfile =
-	mkdir -p '$(STATE)'
 	$(info "depfile: $(BASE)/$(call depends,$1,$2)")
 	touch '$(BASE)/$(call depends,$1,$2)'
 endef
@@ -41,12 +39,11 @@ endef
 # Macros for specific stages
 #############################################
 define downloadpkg =
-	$(eval $(info "DOWNLOAD_PKG: $(LOCAL_BUILD) URL: $($1/TARBALL)"))
-	mkdir -p '$(DOWNLOAD)'
-	cd '$(DOWNLOAD)'
+	$(eval $(info "TOY_DOWNLOAD_PKG: $(LOCAL_BUILD) URL: $($1/TARBALL)"))
+	cd '$(TOY_DOWNLOAD)'
 	if [ -n '$($1/TARBALL)' ]; then
 		if [ ! -f $(notdir $($1/TARBALL)) ]; then
-			wget '$($1/TARBALL)' -O- > '$(DOWNLOAD)/$(notdir $($1/TARBALL))'
+			wget '$($1/TARBALL)' -O- > '$(TOY_DOWNLOAD)/$(notdir $($1/TARBALL))'
 		fi
 	fi
 	$(call depfile,$1,download)
@@ -58,7 +55,7 @@ define preparepkg =
 	cd '$(BUILD)/$1'
 	if [ -n '$($1/TARBALL)' ]; then
 		mkdir -p $($1/dir)
-		tar -xf '$(DOWNLOAD)/$(notdir $($1/TARBALL))' --strip-components=1  -C $($1/dir)
+		tar -xf '$(TOY_DOWNLOAD)/$(notdir $($1/TARBALL))' --strip-components=1  -C $($1/dir)
 	fi
 	$(call $1/prepare)
 	$(call depfile,$1,prepare)
@@ -79,7 +76,6 @@ endef
 
 define packagepkg =
 	$(eval $(info "PACKAGE_PKG"))
-	mkdir -p '$(OUTPUT)'
 	$(call $1/package)
 	$(call depfile,$1,package)
 endef
@@ -93,5 +89,5 @@ all: $(PACKAGES)
 $(foreach pkg,$(PACKAGES),$(call declare_all,$(pkg)))
 
 clean:
-	rm -rf '$(DOWNLOAD)' '$(STATE)' '$(STAGE)' '$(OUTPUT)' '$(BUILD)'
+	rm -rf '$(TOY_DOWNLOAD)' '$(TOY_STATE)' '$(TOY_OUT)' '$(BUILD)'
 
