@@ -40,12 +40,13 @@ EOF
 
 check_params() {
 	if [ $# != 3 ] ; then
-		echo "USAGE: $0 staging_dir output_dir outfile"
+		echo "USAGE: $0 host_dir output_dir outfile"
 		exit 1;
 	fi
 
-	echo "staging dir: " $1
-	echo "output dir: " $2
+	echo "host_dir: " $1
+	echo "output_dir: " $2
+	echo "output_file: " $3
 }
 
 make_initramfs() {
@@ -68,5 +69,24 @@ make_initrd() {
 	sudo mount -t ext2 -o loop $2/$3 ${TMP}
 	sudo cp -r $1/sysroot/* ${TMP}
 	sudo umount ${TMP}
+	rm -fr ${TMP}
+}
+
+make_diskimg() {
+	check_params $@
+	HOST_DIR=$1
+	OUT_DIR=$2
+	OUT_FILE=$3
+
+	rm -f ${OUT_DIR}/${OUT_FILE}
+	dd if=/dev/zero of=${OUT_DIR}/${OUT_FILE} bs=1024k count=128
+	mkfs.ext4 -L ROOT ${OUT_DIR}/${OUT_FILE}
+
+	TMP=`mktemp -d ./tmpd.XXX`
+
+	sudo mount -t ext4 -o loop  ${OUT_DIR}/${OUT_FILE} ${TMP}
+	sudo cp -r $1/sysroot/* ${TMP}
+	sudo umount ${TMP}
+	rm -fr ${TMP}
 }
 
