@@ -23,7 +23,7 @@ define linux/build :=
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf
 	fi
 	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
-		+cd $(linux/dir)/../custom/demo
+		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- 
 	fi
 endef
@@ -38,7 +38,7 @@ define linux/install :=
 		+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
 	fi
 	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
-		+cd $(linux/dir)/../custom/demo
+		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr install
 	fi
 endef
