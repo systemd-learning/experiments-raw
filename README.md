@@ -39,7 +39,7 @@
 * demo_03, 最小Linux系统变种3（Linux + glibc + 动态链接的Busybox） 
 * demo_04: 最小Linux系统变种4（Linux + glibc + systemd， 切换了init） 
 * demo_05: 最小Linux系统变种5（Linux + glibc + Busybox + gdb, 增加了调试工具)
-* demo_06: 最小Linux系统变种6 (Linux + glibc + Busybox + 定制化ko, diskimg的形式)
+* demo_06: 最小Linux系统变种6（Linux + glibc + Busybox + 定制化ko, diskimg的形式)
 
 ...
 
