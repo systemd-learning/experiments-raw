@@ -25,6 +25,7 @@ define init_work_space
 	mkdir -p $(TOY_WORK)
 	mkdir -p $(TOY_OUT)
 	mkdir -p $(TOY_STATE)
+	mkdir -p $(TOY_DOWNLOAD)
 	mkdir -p $(BUILD)
 	mkdir -p $(HOST)/sysroot
 

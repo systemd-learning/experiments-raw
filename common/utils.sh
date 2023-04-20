@@ -74,12 +74,13 @@ make_initrd() {
 
 make_diskimg() {
 	check_params $@
+	add_procfs_sysfs_devfs_rcS $1
 	HOST_DIR=$1
 	OUT_DIR=$2
 	OUT_FILE=$3
 
 	rm -f ${OUT_DIR}/${OUT_FILE}
-	dd if=/dev/zero of=${OUT_DIR}/${OUT_FILE} bs=1024k count=128
+	dd if=/dev/zero of=${OUT_DIR}/${OUT_FILE} bs=1024k count=512
 	mkfs.ext4 -L ROOT ${OUT_DIR}/${OUT_FILE}
 
 	TMP=`mktemp -d ./tmpd.XXX`

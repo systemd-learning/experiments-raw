@@ -24,6 +24,19 @@
 
 ### 站在泥土上，从0开始打造一套仿真环境：
 
+自己动手、丰衣足食，可以深入掌控每一个细节。
+
+安装依赖包， 以ubuntu为例：
+
+```
+编译内核依赖于这些：
+sudo apt install -y flex bison libssl-dev
+
+编译systemd依赖于：
+sudo apt install -y  meson  ninja-build
+
+```
+
 #### 支持功能：
 * 从0开始，交叉构建出一个可以运行的最小Linux操作系统；
 
