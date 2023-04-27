@@ -36,6 +36,17 @@ EOF
 ::respawn:-/bin/sh
 ::ctrlaltdel:/bin/umount -a -r
 EOF
+
+        cat >etc/passwd <<EOF
+root:x:0:0:root:/root:/bin/sh
+nobody:x:65534:65534:nobody:/home:/bin/false
+EOF
+
+        cat >etc/shadow <<EOF
+root::::::::
+nobody:*:::::::
+EOF
+
         popd
 }
 
@@ -90,5 +101,17 @@ make_diskimg() {
 	sudo cp -r $1/sysroot/* ${TMP}
 	sudo umount ${TMP}
 	rm -fr ${TMP}
+}
+
+set_root_password () {
+	if [ $# != 2 ] ; then
+		echo "USAGE: $0 output_dir password"
+		exit 1
+	fi
+
+	local OUT=$1
+	local PASSWD=$2
+	local p=$(openssl passwd -1 -salt "salt" "${PASSWD}")
+	sed -e "s/root:[^:]*:/root:${PASSWD}:/" -i ${OUT}/etc/shadow
 }
 
