@@ -13,6 +13,8 @@ endef
 
 define systemd/install :=
 	+cd $(systemd/dir)
+	if [ $(INITRD_AS_DEFAULT) -eq  1 ]; then
+		+source $(TOY_WORK)/../../packages/systemd/helper.sh && config_initrd_as_default
+	fi
 	DESTDIR=$(HOST)/sysroot/ '$(MAKE)' install
-	+source $(TOY_WORK)/../../packages/systemd/helper.sh && config_initrd_as_default
 endef
