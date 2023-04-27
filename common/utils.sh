@@ -16,6 +16,7 @@ add_procfs_sysfs_devfs_rcS() {
         mkdir -p etc
         mkdir -p mnt
         mkdir -p tmp
+        mkdir -p run
 
         cat >etc/fstab <<EOF
 proc            /proc   proc    defaults    0   0
