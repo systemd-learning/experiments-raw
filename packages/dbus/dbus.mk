@@ -13,5 +13,5 @@ endef
 
 define dbus/install :=
 	+cd $(dbus/dir)
-	+'$(MAKE)' install DESTDIR=$(HOST)/sysroot/
+	+$(CROSS_MAKE_ENV) '$(MAKE)' install DESTDIR=$(HOST)/sysroot/
 endef
