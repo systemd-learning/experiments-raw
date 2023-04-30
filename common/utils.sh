@@ -46,7 +46,7 @@ EOF
 root::::::::
 nobody:*:::::::
 EOF
-
+	cd etc/ && ln -s ../proc/self/mounts mtab && cd -
         popd
 }
 
