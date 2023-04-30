@@ -25,10 +25,11 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libcap
 	'$(MAKE)' -f ../common/package.mk PACKAGES=gperf
 	'$(MAKE)' -f ../common/package.mk PACKAGES=util-linux
+	'$(MAKE)' -f ../common/package.mk PACKAGES=coreutils
 	'$(MAKE)' -f ../common/package.mk PACKAGES=expat
 	'$(MAKE)' -f ../common/package.mk PACKAGES=dbus
 	'$(MAKE)' -f ../common/package.mk PACKAGES=systemd
-	'$(MAKE)' -f ../common/package.mk PACKAGES=dbus  LOCAL_BUILD=1
+	'$(MAKE)' -f ../common/package.mk PACKAGES=dbus LOCAL_BUILD=1
 
 toolchain:
 	$(info "preparing toolchain ...")
