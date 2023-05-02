@@ -12,6 +12,7 @@ export WITH_CUSTOM_KO := 1
 all: packages
 	$(info "generating image ...")
 	cp $(HOST)/$(IMG) $(TOY_OUT)/
+	source ../common/utils.sh && copy_libs_from_toolchain $(HOST) libgcc_s.so*
 	source ../common/utils.sh && make_diskimg $(HOST) $(TOY_OUT) disk.img
 	$(info "success.")
 
@@ -30,6 +31,10 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=dbus
 	'$(MAKE)' -f ../common/package.mk PACKAGES=systemd
 	'$(MAKE)' -f ../common/package.mk PACKAGES=dbus LOCAL_BUILD=1
+	'$(MAKE)' -f ../common/package.mk PACKAGES=libunwind
+	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
+	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
+	#'$(MAKE)' -f ../common/package.mk PACKAGES=kmod
 
 toolchain:
 	$(info "preparing toolchain ...")

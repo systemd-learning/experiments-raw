@@ -115,3 +115,15 @@ set_root_password () {
 	sed -e "s/root:[^:]*:/root:${PASSWD}:/" -i ${OUT}/etc/shadow
 }
 
+copy_libs_from_toolchain() {
+	if [ $# != 2 ] ; then
+		echo "USAGE: $0 host_dir lib_file"
+		exit 1
+	fi
+
+	FILES=`find ${1}/../../toolchain/ -name "${2}" 2>/dev/null`
+	for F in ${FILES} ; do
+		sudo cp -f ${F} $1/sysroot/lib/
+	done
+}
+
