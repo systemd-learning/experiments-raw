@@ -12,6 +12,7 @@ CROSS_ENV_RAW = \
 	CC=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-gcc  \
 	CXX=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-g++ \
 	LD="$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-ld" \
+	STRIP="$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-strip" \
 	PKG_CONFIG_LIBDIR='$(HOST)/sysroot/usr/share/pkgconfig:$(HOST)/sysroot/usr/lib/pkgconfig'
 
 CROSS_MAKE_ENV = \
