@@ -32,6 +32,7 @@ cmake_prefix_path = '/bin/false'
 needs_exe_wrapper = true
 root = '${HOST}/sysroot'
 sys_root = '${HOST}/sysroot'
+prefix = '${HOST}/sysroot/usr'
 pkg_config_libdir = '${HOST}/sysroot/lib/pkgconfig'
 pkg_config_static = 'false'
 # enable meson build to pass a toolchain file to cmake

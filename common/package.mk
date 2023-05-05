@@ -4,7 +4,7 @@ ROOT_PREFIX ?= sysroot
 LOCAL_BUILD ?= 0
 
 .PHONY: all
--include $(BASE)/../packages/*/*.mk
+include $(BASE)/../packages/*/*.mk
 
 
 depends = $(subst $(BASE),./,$(TOY_STATE))/dep.$1.$2.build_$(LOCAL_BUILD)
