@@ -92,7 +92,7 @@ make_diskimg() {
 	OUT_FILE=$3
 
 	rm -f ${OUT_DIR}/${OUT_FILE}
-	dd if=/dev/zero of=${OUT_DIR}/${OUT_FILE} bs=1024k count=512
+	dd if=/dev/zero of=${OUT_DIR}/${OUT_FILE} bs=1024k count=2048
 	mkfs.ext4 -L ROOT ${OUT_DIR}/${OUT_FILE}
 
 	TMP=`mktemp -d ./tmpd.XXX`
