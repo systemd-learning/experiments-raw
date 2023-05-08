@@ -24,6 +24,7 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
 	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
 	'$(MAKE)' -f ../common/package.mk PACKAGES=diagnose
+	'$(MAKE)' -f ../common/package.mk PACKAGES=opendds
 
 toolchain: 
 	$(info "preparing toolchain ...")
