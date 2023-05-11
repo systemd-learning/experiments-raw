@@ -21,6 +21,7 @@ add_procfs_sysfs_devfs_rcS() {
         cat >etc/fstab <<EOF
 proc            /proc   proc    defaults    0   0
 sys             /sys    sysfs   defaults    0   0
+debugfs  /sys/kernel/debug debugfs defaults 0 0
 EOF
 
         mkdir -p etc/init.d/
