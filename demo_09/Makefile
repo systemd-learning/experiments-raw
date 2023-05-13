@@ -20,6 +20,9 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
 	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
 	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGES=libmnl
+	'$(MAKE)' -f ../common/package.mk PACKAGES=libnftnl
+	'$(MAKE)' -f ../common/package.mk PACKAGES=iptables
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=selinux
 
 toolchain: 
