@@ -8,8 +8,8 @@ export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
 export CROSS_NAME=aarch64-none-linux-gnu
 export WITH_PERF := 1
 export WITH_CUSTOM_KO := 1
-export WITH_SAMPLES_BPF :=1
-export WITH_LIB_BPF :=1
+export WITH_SAMPLES_BPF := 1
+export WITH_LIB_BPF := 1
 
 all: packages
 	$(info "generating image ...")
@@ -19,12 +19,13 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
-	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
 	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
 	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
 	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libunwind
+	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
+	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
+	'$(MAKE)' -f ../common/package.mk PACKAGES=libbpf
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=diagnose
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=opendds
 
