@@ -23,6 +23,7 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libmnl
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libnftnl
 	'$(MAKE)' -f ../common/package.mk PACKAGES=iptables
+	'$(MAKE)' -f ../common/package.mk PACKAGES=ethtool
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=selinux
 
 toolchain: 
