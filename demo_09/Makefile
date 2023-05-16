@@ -24,6 +24,7 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libnftnl
 	'$(MAKE)' -f ../common/package.mk PACKAGES=iptables
 	'$(MAKE)' -f ../common/package.mk PACKAGES=ethtool
+	'$(MAKE)' -f ../common/package.mk PACKAGES=qperf
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=selinux
 
 toolchain: 
