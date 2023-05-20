@@ -1,7 +1,7 @@
 include $(BASE)/../common/env.mk
 
-linux/VERSION := 5.10.65-rt53-rebase
-linux/TARBALL := https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git/snapshot/linux-stable-rt-$(linux/VERSION).tar.gz
+linux/VERSION := 5.10.65
+linux/TARBALL := https://mirrors.aliyun.com/linux-kernel/v5.x/linux-$(linux/VERSION).tar.xz
 linux/dir = $(BUILD)/linux/linux-$(linux/VERSION)
 
 define linux/prepare :=
