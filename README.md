@@ -33,7 +33,7 @@
 sudo apt install -y flex bison libssl-dev
 
 编译systemd依赖于：
-sudo apt install -y  meson  ninja-build
+sudo apt install -y  meson  ninja-build pkg-config
 
 ```
 
@@ -53,8 +53,11 @@ sudo apt install -y  meson  ninja-build
 * demo_04: 最小Linux系统变种4（Linux + glibc + systemd， 切换了init） 
 * demo_05: 最小Linux系统变种5（Linux + glibc + Busybox + gdb, 增加了调试工具)
 * demo_06: 最小Linux系统变种6（Linux + glibc + Busybox + 定制化ko, diskimg的形式)
+* demo_07: 最小Linux系统变种7（Linux + glibc + systemd, 按需新增了bash, util-linux, coreutil, elfutils等)
+* demo_08: 最小Linux系统变种8（Linux + glibc + Busybox, 可以支持diagnose, opendds等)
+* demo_09: 最小Linux系统变种9（Linux + glibc + Busybox, 可以支持其他sdk中的网络工具，例如iptables, ethtool等)
 
-...
+未完待续...
 
 
 
