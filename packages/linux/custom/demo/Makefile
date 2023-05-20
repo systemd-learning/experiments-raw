@@ -1,5 +1,5 @@
 obj-m += demo.o
-KDIR ?= ../../linux-5.10.65-rt53-rebase
+KDIR ?= ../../linux-5.10.65
 
 ifneq ($(KERNELRELEASE),)
 # kbuild part of makefile
