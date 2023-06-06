@@ -25,8 +25,7 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGES=libunwind
 	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
 	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
-	'$(MAKE)' -f ../common/package.mk PACKAGES=libbpf
-	'$(MAKE)' -f ../common/package.mk PACKAGES=diagnose
+#	'$(MAKE)' -f ../common/package.mk PACKAGES=diagnose
 #	'$(MAKE)' -f ../common/package.mk PACKAGES=opendds
 
 toolchain: 

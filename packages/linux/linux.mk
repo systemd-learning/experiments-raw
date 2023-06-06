@@ -30,6 +30,13 @@ define linux/build :=
 		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- 
 	fi
+	if [ $(WITH_LIB_BPF) -eq  1 ]; then
+		+cd $(linux/dir)/tools/lib/bpf
+		+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) -O2 --sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+		+cd $(linux/dir)
+		+$(CROSS_MAKE_ENV) SYSROOT='$(HOST)/sysroot ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+	fi
+
 endef
 
 define linux/install :=
@@ -45,5 +52,12 @@ define linux/install :=
 		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr install
 	fi
+	if [ $(WITH_LIB_BPF) -eq  1 ]; then
+		+cd $(linux/dir)/tools/lib/bpf
+		+$(CROSS_MAKE_ENV) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ install
+		+cd $(linux/dir)
+		+$(CROSS_MAKE_ENV) $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/  install
+	fi
+
 endef
 
