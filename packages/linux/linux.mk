@@ -17,7 +17,11 @@ define linux/build :=
 		sed -i '/CONFIG_BLK_DEV_RAM=y/a\CONFIG_BLK_DEV_RAM_COUNT=16'  .config
 		sed -i '/CONFIG_BLK_DEV_RAM=y/a\CONFIG_BLK_DEV_RAM_SIZE=4096' .config
 	fi
-
+	if [ $(WITH_LIB_BPF) -eq  1 ]; then
+		sed -i 's/# CONFIG_BPF_SYSCALL is not set/CONFIG_BPF_SYSCALL=y/' .config
+		sed -i 's/# CONFIG_TASKS_TRACE_RCU is not set/CONFIG_TASKS_TRACE_RCU=y/' .config
+		sed -i 's/# CONFIG_BPF_EVENTS is not set/CONFIG_BPF_EVENTS=y/' .config
+	fi
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- $(IMG) modules dtbs -j 8
 	if [ $(WITH_PERF) -eq  1 ]; then
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf
