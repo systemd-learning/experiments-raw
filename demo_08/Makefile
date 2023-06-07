@@ -19,6 +19,8 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
+	'$(MAKE)' -f ../common/package.mk PACKAGES=readline
+	'$(MAKE)' -f ../common/package.mk PACKAGES=binutils
 	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
 	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
 	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox

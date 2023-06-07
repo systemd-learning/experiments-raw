@@ -32,9 +32,9 @@ define linux/build :=
 	fi
 	if [ $(WITH_LIB_BPF) -eq  1 ]; then
 		+cd $(linux/dir)/tools/lib/bpf
-		+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) -O2 --sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+		+$(CROSS_ENV_RAW) EXTRA_CFLAGS='$(CFLAGS) -O2 --sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
 		+cd $(linux/dir)
-		+$(CROSS_MAKE_ENV) SYSROOT='$(HOST)/sysroot ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+		+$(CROSS_ENV_RAW) VMLINUX_BTF=vmlinux SYSROOT='$(HOST)/sysroot' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
 	fi
 
 endef
@@ -46,7 +46,7 @@ define linux/install :=
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr INSTALL_MOD_STRIP=1 modules_install
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_HDR_PATH=$(HOST)/sysroot/usr headers_install
 	if [ $(WITH_PERF) -eq  1 ]; then
-		+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+		+cd tools && $(CROSS_ENV_RAW) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
 	fi
 	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
 		+cd $(linux/dir)/../custom/
@@ -54,9 +54,9 @@ define linux/install :=
 	fi
 	if [ $(WITH_LIB_BPF) -eq  1 ]; then
 		+cd $(linux/dir)/tools/lib/bpf
-		+$(CROSS_MAKE_ENV) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ install
-		+cd $(linux/dir)
-		+$(CROSS_MAKE_ENV) $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/  install
+		+$(CROSS_ENV_RAW) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ install
+		+cd $(linux/dir)/tools
+		+$(CROSS_ENV_RAW) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ bpf_install
 	fi
 
 endef
