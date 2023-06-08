@@ -33,7 +33,10 @@
 sudo apt install -y flex bison libssl-dev gawk python libelf-dev dwarves libncurses-dev
 
 编译systemd依赖于：
-sudo apt install -y  meson  ninja-build pkg-config
+sudo apt install -y meson  ninja-build pkg-config
+
+编译binutls依赖于：
+sudo apt install -y texinfo
 
 ```
 
