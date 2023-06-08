@@ -30,7 +30,7 @@
 
 ```
 编译内核依赖于这些：
-sudo apt install -y flex bison libssl-dev
+sudo apt install -y flex bison libssl-dev gawk python
 
 编译systemd依赖于：
 sudo apt install -y  meson  ninja-build pkg-config
