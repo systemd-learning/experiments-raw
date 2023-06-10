@@ -6,10 +6,7 @@ export KCFG=defconfig
 export IMG=Image.gz
 export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
 export CROSS_NAME=aarch64-none-linux-gnu
-export WITH_PERF := 1
 export WITH_CUSTOM_KO := 1
-export WITH_SAMPLES_BPF := 1
-export WITH_LIB_BPF := 1
 
 all: packages
 	$(info "generating image ...")
@@ -19,21 +16,22 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=readline
-	'$(MAKE)' -f ../common/package.mk PACKAGES=binutils
-	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
-	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
-	'$(MAKE)' -f ../common/package.mk PACKAGES=libunwind
-	'$(MAKE)' -f ../common/package.mk PACKAGES=zlib
-	'$(MAKE)' -f ../common/package.mk PACKAGES=elfutils
-#	'$(MAKE)' -f ../common/package.mk PACKAGES=diagnose
-#	'$(MAKE)' -f ../common/package.mk PACKAGES=opendds
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGE=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGE=libunwind
+	'$(MAKE)' -f ../common/package.mk PACKAGE=zlib
+	'$(MAKE)' -f ../common/package.mk PACKAGE=elfutils
+	'$(MAKE)' -f ../common/package.mk PACKAGE=readline
+	'$(MAKE)' -f ../common/package.mk PACKAGE=binutils
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux EXT_PACKAGES="perf bpf"
+#	'$(MAKE)' -f ../common/package.mk PACKAGE=diagnose
+#	'$(MAKE)' -f ../common/package.mk PACKAGE=opendds
 
 toolchain: 
 	$(info "preparing toolchain ...")
 	$(call init_work_space)
-	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm64
+	'$(MAKE)' -f ../common/package.mk PACKAGE=toolchain_arm64
 	source ../common/utils.sh && copy_libs_from_toolchain $(HOST) libgcc_s.so*
 
 clean:

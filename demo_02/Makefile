@@ -19,13 +19,13 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=busybox
 
 toolchain:
 	$(info "preparing toolchain ...")
 	$(call init_work_space)
-	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm32
+	'$(MAKE)' -f ../common/package.mk PACKAGE=toolchain_arm32
 
 clean:
 	'$(MAKE)' -f ../common/package.mk clean

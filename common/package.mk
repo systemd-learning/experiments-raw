@@ -2,6 +2,8 @@ include $(BASE)/../common/env.mk
 
 ROOT_PREFIX ?= sysroot
 LOCAL_BUILD ?= 0
+PACKAGE ?=
+EXT_PACKAGES ?=
 
 .PHONY: all
 include $(BASE)/../packages/*/*.mk
@@ -14,9 +16,6 @@ define depfile =
 	touch '$(BASE)/$(call depends,$1,$2)'
 endef
 
-#############################################
-# Dynamically declare dependencies between packages
-#############################################
 define declaredeps =
 	$(eval .PHONY: $1)
 	$(eval $1: $(call depends,$1,package))
@@ -31,13 +30,21 @@ define declare_all =
 	$(if $($1_done),,$(call declaredeps,$1) $(eval $1_done=1))
 endef
 
+define declare_ext_deps =
+	$(eval .PHONY: $1)
+	$(eval $1: $(call depends,$1,ext_package))
+	$(eval $(call depends,$1,ext_package) : $(call depends,$1,ext_install) ; $(call ext_packagepkg,$1,$2) )
+	$(eval $(call depends,$1,ext_install) : $(call depends,$1,ext_build)   ; $(call ext_installpkg,$1,$2) )
+	$(eval $(call depends,$1,ext_build)   :                                ; $(call ext_buildpkg,$1,$2)   )
+endef
+
+define declare_all_ext =
+	$(if $($1_ext_done),,$(call declare_ext_deps,$1,$2) $(eval $1_ext_done=1))
+endef
+
 .SHELLFLAGS = -e -c
 .ONESHELL:
 
-
-#############################################
-# Macros for specific stages
-#############################################
 define downloadpkg =
 	$(eval $(info "TOY_DOWNLOAD_PKG: $(LOCAL_BUILD) URL: $($1/TARBALL)"))
 	cd '$(TOY_DOWNLOAD)'
@@ -50,7 +57,7 @@ define downloadpkg =
 endef
 
 define preparepkg =
-	$(eval $(info "PREPARE_PKG"))
+	$(eval $(info "PREPARE_PKG: $1"))
 	mkdir -p '$(BUILD)/$1'
 	cd '$(BUILD)/$1'
 	if [ -n '$($1/TARBALL)' ]; then
@@ -62,31 +69,46 @@ define preparepkg =
 endef
 
 define buildpkg =
-	$(eval $(info "BUILD_PKG"))
+	$(eval $(info "BUILD_PKG: $1"))
 	mkdir -p '$(HOST)'
 	$(call $1/build)
 	$(call depfile,$1,build)
 endef
 
 define installpkg =
-	$(eval $(info "INSTALL_PKG"))
+	$(eval $(info "INSTALL_PKG: $1"))
 	$(call $1/install)
 	$(call depfile,$1,install)
 endef
 
 define packagepkg =
-	$(eval $(info "PACKAGE_PKG"))
+	$(eval $(info "PACKAGE_PKG: $1"))
 	$(call $1/package)
 	$(call depfile,$1,package)
 endef
 
-#############################################
-# Targets
-#############################################
-all: $(PACKAGES)
+define ext_buildpkg =
+	$(eval $(info "BUILD_PKG: $2/$1"))
+	mkdir -p '$(HOST)'
+	$(call $2/$1/build)
+	$(call depfile,$1,build)
+endef
 
-# Import dependencies between packages and package stages
-$(foreach pkg,$(PACKAGES),$(call declare_all,$(pkg)))
+define ext_installpkg =
+	$(eval $(info "INSTALL_PKG: $2/$1"))
+	$(call $2/$1/install)
+	$(call depfile,$1,install)
+endef
+
+define ext_packagepkg =
+	$(eval $(info "PACKAGE_PKG: $2/$1"))
+	$(call $2/$1/package)
+	$(call depfile,$1,package)
+endef
+
+all: $(PACKAGE) $(EXT_PACKAGES)
+$(call declare_all,$(PACKAGE))
+$(foreach ext,$(EXT_PACKAGES),$(call declare_all_ext,$(ext),$(PACKAGE)))
 
 clean:
 	rm -rf '$(TOY_DOWNLOAD)' '$(TOY_STATE)' '$(TOY_OUT)' '$(BUILD)'

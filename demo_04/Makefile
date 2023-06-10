@@ -16,20 +16,20 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
-	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
-	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf LOCAL_BUILD=1
-	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf
-	'$(MAKE)' -f ../common/package.mk PACKAGES=libcap
-	'$(MAKE)' -f ../common/package.mk PACKAGES=gperf
-	'$(MAKE)' -f ../common/package.mk PACKAGES=util-linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=systemd
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGE=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGE=pkgconf LOCAL_BUILD=1
+	'$(MAKE)' -f ../common/package.mk PACKAGE=pkgconf
+	'$(MAKE)' -f ../common/package.mk PACKAGE=libcap
+	'$(MAKE)' -f ../common/package.mk PACKAGE=gperf
+	'$(MAKE)' -f ../common/package.mk PACKAGE=util-linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=systemd
 
 toolchain:
 	$(info "preparing toolchain ...")
 	$(call init_work_space)  
-	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm64
+	'$(MAKE)' -f ../common/package.mk PACKAGE=toolchain_arm64
 
 clean:
 	'$(MAKE)' -f ../common/package.mk clean
