@@ -6,15 +6,16 @@ diagnose/dir = $(BUILD)/diagnose/diagnose-$(diagnose/VERSION)_build.$(LOCAL_BUIL
 
 DIAG_VENDER_ENV = \
 	ARCH=arm64 \
-	UNAME=5.10.65-rt53 \
-	KERNEL_BUILD_PATH="$(HOST)/sysroot/lib/modules/5.10.65-rt53/build" \
+	UNAME=5.10.65 \
+	KERNEL_BUILD_PATH="$(BUILD)/linux/linux-5.10.65/" \
 	CFLAGS_MODULE="-DMODULE -DCHUSHI_ARM64 -DCONFIG_CHUSHI_PREEMPT_RT " \
 	VENDER_LDFLAGS="--sysroot=$(HOST)/sysroot " \
 	VENDER_CXXFLAGS="-DCHUSHI_ARM64 --sysroot=$(HOST)/sysroot "
 
 define diagnose/build :=
 	+cd $(diagnose/dir)
-	+$(CROSS_MAKE_ENV) $(DIAG_VENDER_ENV) make 
+	+$(CROSS_MAKE_ENV) $(DIAG_VENDER_ENV) make clean
+	+$(CROSS_MAKE_ENV) $(DIAG_VENDER_ENV) make
 endef
 
 define diagnose/install :=

@@ -1,6 +1,6 @@
 include $(BASE)/../common/env.mk
 
-binutils/VERSION := 2.40
+binutils/VERSION := 2.38
 binutils/TARBALL := https://ftp.gnu.org/gnu/binutils/binutils-$(binutils/VERSION).tar.xz
 binutils/dir = $(BUILD)/binutils/binutils-$(binutils/VERSION)_build.$(LOCAL_BUILD)
 

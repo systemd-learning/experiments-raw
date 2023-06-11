@@ -40,25 +40,25 @@ define linux/install :=
 endef
 
 define linux/perf/build :=
-	+cd $(linux/dir)
-	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf  -j 8
+	+cd $(linux/dir)/tools
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- perf  -j 8
 endef
 
 define linux/perf/install :=
 	+cd $(linux/dir)/tools
-	+$(CROSS_ENV_RAW) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
 endef
 
 define linux/bpf/build :=
-	+cd $(linux/dir)/tools/lib/bpf
-	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) --sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- -j 8
+	+cd $(linux/dir)/tools/
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) --sysroot=$(HOST)/sysroot -DDISASM_FOUR_ARGS_SIGNATURE ' LDFLAGS='$(LDFLAGS) -liberty -lz ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- bpf
 	+cd $(linux/dir)
-	+$(CROSS_MAKE_ENV) VMLINUX_BTF=vmlinux SYSROOT='$(HOST)/sysroot' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+	+$(CROSS_MAKE_ENV) VMLINUX_BTF=vmlinux SYSROOT='$(HOST)/sysroot' LDFLAGS='$(LDFLAGS) -liberty -lz ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
 endef
 
 define linux/bpf/install :=
-	+cd $(linux/dir)/tools/lib/bpf
-	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ install
+	+cd $(linux/dir)/tools/
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) --sysroot=$(HOST)/sysroot -DDISASM_FOUR_ARGS_SIGNATURE ' LDFLAGS='$(LDFLAGS) -liberty -lz -lncurses ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ bpf_install
 #	+cd $(linux/dir)/tools
 #	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ bpf_install
 endef

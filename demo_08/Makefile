@@ -22,9 +22,10 @@ packages: toolchain
 	'$(MAKE)' -f ../common/package.mk PACKAGE=libunwind
 	'$(MAKE)' -f ../common/package.mk PACKAGE=zlib
 	'$(MAKE)' -f ../common/package.mk PACKAGE=elfutils
-	'$(MAKE)' -f ../common/package.mk PACKAGE=readline
 	'$(MAKE)' -f ../common/package.mk PACKAGE=binutils
-	'$(MAKE)' -f ../common/package.mk PACKAGE=linux EXT_PACKAGES="perf bpf"
+	'$(MAKE)' -f ../common/package.mk PACKAGE=ncurses
+	'$(MAKE)' -f ../common/package.mk PACKAGE=readline
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux EXT_PACKAGES="perf "
 #	'$(MAKE)' -f ../common/package.mk PACKAGE=diagnose
 #	'$(MAKE)' -f ../common/package.mk PACKAGE=opendds
 
