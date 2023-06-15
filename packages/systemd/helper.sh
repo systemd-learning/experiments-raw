@@ -118,4 +118,7 @@ set -x
 exec  /bin/bash
  
 EOF
+
+chmod +x ${HOST}/sysroot/sbin/early_init.sh
+
 }
