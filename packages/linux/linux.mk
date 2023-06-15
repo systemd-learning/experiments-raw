@@ -19,9 +19,7 @@ define linux/build :=
 	fi
 
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- $(IMG) modules dtbs -j 8
-	if [ $(WITH_PERF) -eq  1 ]; then
-		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- tools/perf
-	fi
+
 	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
 		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- 
@@ -34,12 +32,34 @@ define linux/install :=
 	+cp arch/$(ARCH)/boot/dts/$(DTB) $(HOST)/
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr INSTALL_MOD_STRIP=1 modules_install
 	+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_HDR_PATH=$(HOST)/sysroot/usr headers_install
-	if [ $(WITH_PERF) -eq  1 ]; then
-		+cd tools && $(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
-	fi
 	if [ $(WITH_CUSTOM_KO) -eq  1 ]; then
 		+cd $(linux/dir)/../custom/
 		+$(CROSS_ENV_RAW) $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- INSTALL_MOD_PATH=$(HOST)/sysroot/usr install
 	fi
+
+endef
+
+define linux/perf/build :=
+	+cd $(linux/dir)/tools
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- perf  -j 8
+endef
+
+define linux/perf/install :=
+	+cd $(linux/dir)/tools
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ perf_install
+endef
+
+define linux/bpf/build :=
+	+cd $(linux/dir)/tools/
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) --sysroot=$(HOST)/sysroot -DDISASM_FOUR_ARGS_SIGNATURE ' LDFLAGS='$(LDFLAGS) -liberty -lz ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- bpf
+	+cd $(linux/dir)
+	+$(CROSS_MAKE_ENV) VMLINUX_BTF=vmlinux SYSROOT='$(HOST)/sysroot' LDFLAGS='$(LDFLAGS) -liberty -lz ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)-
+endef
+
+define linux/bpf/install :=
+	+cd $(linux/dir)/tools/
+	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='$(CFLAGS) --sysroot=$(HOST)/sysroot -DDISASM_FOUR_ARGS_SIGNATURE ' LDFLAGS='$(LDFLAGS) -liberty -lz -lncurses ' $(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ bpf_install
+#	+cd $(linux/dir)/tools
+#	+$(CROSS_MAKE_ENV) EXTRA_CFLAGS='--sysroot=$(HOST)/sysroot ' $(MAKE) M=samples/bpf ARCH=$(ARCH) CROSS_COMPILE=$(CROSS_NAME)- prefix=$(HOST)/sysroot/usr/ bpf_install
 endef
 

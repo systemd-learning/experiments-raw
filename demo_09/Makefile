@@ -17,21 +17,21 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
-	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
-	'$(MAKE)' -f ../common/package.mk PACKAGES=libmnl
-	'$(MAKE)' -f ../common/package.mk PACKAGES=libnftnl
-	'$(MAKE)' -f ../common/package.mk PACKAGES=iptables
-	'$(MAKE)' -f ../common/package.mk PACKAGES=ethtool
-	'$(MAKE)' -f ../common/package.mk PACKAGES=qperf
-	'$(MAKE)' -f ../common/package.mk PACKAGES=iproute2
-#	'$(MAKE)' -f ../common/package.mk PACKAGES=selinux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGE=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGE=libmnl
+	'$(MAKE)' -f ../common/package.mk PACKAGE=libnftnl
+	'$(MAKE)' -f ../common/package.mk PACKAGE=iptables
+	'$(MAKE)' -f ../common/package.mk PACKAGE=ethtool
+	'$(MAKE)' -f ../common/package.mk PACKAGE=qperf
+	'$(MAKE)' -f ../common/package.mk PACKAGE=iproute2
+#	'$(MAKE)' -f ../common/package.mk PACKAGE=selinux
 
 toolchain: 
 	$(info "preparing toolchain ...")
 	$(call init_work_space)
-	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm64
+	'$(MAKE)' -f ../common/package.mk PACKAGE=toolchain_arm64
 	source ../common/utils.sh && copy_libs_from_toolchain $(HOST) libgcc_s.so*
 
 clean:

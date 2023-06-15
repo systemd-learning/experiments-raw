@@ -15,16 +15,16 @@ all: packages
 
 packages: toolchain
 	$(info "building dependent packages ...")
-	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
-	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
-	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
-	'$(MAKE)' -f ../common/package.mk PACKAGES=gmp
-	'$(MAKE)' -f ../common/package.mk PACKAGES=gdb
+	'$(MAKE)' -f ../common/package.mk PACKAGE=linux
+	'$(MAKE)' -f ../common/package.mk PACKAGE=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGE=busybox
+	'$(MAKE)' -f ../common/package.mk PACKAGE=gmp
+	'$(MAKE)' -f ../common/package.mk PACKAGE=gdb
 
 toolchain:
 	$(info "preparing toolchain ...")
 	$(call init_work_space)
-	'$(MAKE)' -f ../common/package.mk PACKAGES=toolchain_arm64
+	'$(MAKE)' -f ../common/package.mk PACKAGE=toolchain_arm64
 
 clean:
 	'$(MAKE)' -f ../common/package.mk clean

@@ -7,8 +7,11 @@ export TOY_STATE := $(TOY_WORK)/state
 export BUILD := $(TOY_WORK)/build
 export HOST := $(TOY_WORK)/host
 
+CROSS_ENV_PATH = \
+	PATH=$(TOY_TOOLCHAIN)/bin:$(PATH)
+
 CROSS_ENV_RAW = \
-	PATH=$(TOY_TOOLCHAIN)/bin:$(PATH)  \
+	$(CROSS_ENV_PATH) \
 	CC=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-gcc  \
 	CXX=$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-g++ \
 	LD="$(TOY_TOOLCHAIN)/bin/$(CROSS_NAME)-ld" \
