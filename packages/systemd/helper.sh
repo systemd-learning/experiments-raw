@@ -104,3 +104,18 @@ work_around_shift-overflow() {
 	sed -i  's/'-Werror=shift-overflow=2'/'-Werror=shift-overflow=1'/' ${BUILDDIR}/meson.build
 }
 
+add_hooks_start_pre_systemd() {
+cat > ${HOST}/sysroot/sbin/early_init.sh <<EOF
+#!/bin/sh
+
+set -x
+
+/bin/mount -a
+/sbin/mdev -s
+
+/usr/bin/echo "Hooks StartPre SystemD ..." > /dev/kmsg
+/usr/bin/echo "Hooks StartPre SystemD Done" > /dev/kmsg
+exec  /bin/bash
+ 
+EOF
+}

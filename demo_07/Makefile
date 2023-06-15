@@ -7,6 +7,7 @@ export IMG=Image.gz
 export DTB=arm/vexpress-v2f-1xv7-ca53x2.dtb
 export CROSS_NAME=aarch64-none-linux-gnu
 export WITH_PERF := 1
+export STATIC := 1
 export WITH_CUSTOM_KO := 1
 
 all: packages
@@ -20,6 +21,7 @@ packages: toolchain
 	$(info "building dependent packages ...")
 	'$(MAKE)' -f ../common/package.mk PACKAGES=linux
 	'$(MAKE)' -f ../common/package.mk PACKAGES=glibc
+	'$(MAKE)' -f ../common/package.mk PACKAGES=busybox
 	'$(MAKE)' -f ../common/package.mk PACKAGES=bash
 	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf LOCAL_BUILD=1
 	'$(MAKE)' -f ../common/package.mk PACKAGES=pkgconf
